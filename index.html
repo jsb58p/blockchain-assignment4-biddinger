@@ -244,43 +244,7 @@ c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
 // ===== Wire up UI
 el("btnConnect").onclick = async ()=>{ try{ await connect(); }
 catch(e){ logErr(e.message||e);} };
-const to = getAddress(el("to").value.trim());
-const amtStr = el("amt").value.trim();
-if (!amtStr) throw new Error("Enter amount");
-const amount = parseUnits(amtStr, Number(decimals));
-const hash = await walletClient.writeContract({
-address: token, abi: ERC20_ABI, functionName: "transfer",
-args: [to, amount],
-// mild tips (EIP-1559)
-maxPriorityFeePerGas: 2_000_000_000n,
-maxFeePerGas: 21_000_000_000n,
-account
-});
-logWarn(`Submitted: ${hash}`);
-const rcpt = await publicClient.waitForTransactionReceipt({ hash });
-logOk(`Mined in block ${rcpt.blockNumber} (gas ${rcpt.gasUsed})`);
-
-async function watchAsset() {
-if (!token || !symbol) return;
-await window.ethereum.request({
-method: "wallet_watchAsset",
-params: { type: "ERC20", options: { address: token, symbol, decimals:
-Number(decimals) } }
-});
-logOk("Token added to MetaMask (or already present).");
-}
-// ===== Logging
-function logOk(m){ txlog.innerHTML = `<div class="ok">${escapeHtml(m)}</div>` +
-txlog.innerHTML; }
-function logWarn(m){ txlog.innerHTML = `<div class="warn">${escapeHtml(m)}</div>` +
-txlog.innerHTML; }
-function logErr(m){ txlog.innerHTML = `<div class="err">${escapeHtml(m)}</div>` +
-txlog.innerHTML; }
-function escapeHtml(s){ return s.replace(/[&<>"]/g,
-c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
 // ===== Wire up UI
-el("btnConnect").onclick = async ()=>{ try{ await connect(); }
-catch(e){ logErr(e.message||e);} };
 el("btnLoad").onclick = async ()=>{ try{ await loadToken(); }
 catch(e){ logErr(e.message||e);} };
 el("btnRefresh").onclick = async ()=>{ try{ await refresh(); }
