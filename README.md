@@ -41,4 +41,4 @@
 
 ![transfer confirmation](https://github.com/jsb58p/blockchain-assignment4-biddinger/blob/main/screenshots/transaction_verify1.png)
 
-![transfer confirmation 2](https://github.com/jsb58p/blockchain-assignment4-biddinger/blob/main/screenshots/transaction_verify(after 2 transactions).png)
+![transfer confirmation 2](https://github.com/jsb58p/blockchain-assignment4-biddinger/blob/main/screenshots/transaction_verify(after%202%20transactions).png)
